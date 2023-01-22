@@ -57,7 +57,7 @@ func main() {
 	fs := http.FileServer(http.Dir("../Site"))
 
 	http.Handle("/", fs)
-	http.HandleFunc("/products", productsHandler)
+	http.HandleFunc("/get-all-products", productsHandler)
 
 	fmt.Println("Server starts...")
 	http.ListenAndServe(":8080", nil)

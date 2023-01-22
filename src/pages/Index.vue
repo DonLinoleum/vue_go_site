@@ -23,7 +23,24 @@
 
 <script>
 export default{
+    methods:{
+        startAnimation(){
+            setTimeout(()=>{
+            let images = document.querySelectorAll('img')
+            let headers_text = document.querySelectorAll('h2')
+            headers_text.forEach(el=>{
+                el.style.transform = 'translateX(0)'
+            })
 
+            images.forEach(el=>{
+            el.style.opacity = '1'
+        }) 
+        },10)
+        }
+    },
+    mounted(){
+        this.startAnimation()
+    }
 }
 </script>
 
@@ -38,6 +55,12 @@ export default{
         margin-top: 1rem;
         font-size: 4rem;
     }
+
+    .h-wrapper h2 {
+        transform: translateX(-60rem);
+        transition: all 2s ease-out;
+    }
+
     .main-index-img{
         margin-top:2rem;
         align-self:flex-end;
@@ -48,6 +71,8 @@ export default{
         max-width: 1200px;
         max-height: 600px;
         box-shadow: 1px 1px 11px black;
+        opacity: 0;
+        transition: opacity 2.5s ease-out;
     }
     .main-index-img__left{
         margin-top:2rem;
@@ -58,6 +83,8 @@ export default{
         border-radius: 20px;
         max-width: 1200px;
         max-height: 600px;
+        opacity: 0;
         box-shadow: 1px 1px 11px black;
+        transition: opacity 2.5s ease-out;
     }
 </style>

@@ -27,12 +27,13 @@
 }
 .app{
    display: flex; 
+   justify-content: center;
    font-family: 'Montserrat', sans-serif;
 }
 .background{
     background: url('/img/background.jpg'),rgba(255,255,255,0.8);
     background-size: cover;
-    background-blend-mode: color;
+    background-blend-mode:color;
     background-repeat: no-repeat;
     
 }

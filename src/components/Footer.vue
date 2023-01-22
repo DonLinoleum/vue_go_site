@@ -7,7 +7,7 @@
             <h2>Excellent wine shop of Sophocles!</h2>
             <h2>2023 ©</h2>
         </div>
-        <div class="footer_img_wrapper">
+        <div class="footer_img_wrapper right">
             <img src="/img/footer_img_1.png" />
         </div>
     </div>
@@ -41,5 +41,9 @@
     .footer_img_wrapper img{
         width:6rem;
         height: 9rem;
+    }
+
+    .right{
+        transform: scaleX(-1);
     }
 </style>
