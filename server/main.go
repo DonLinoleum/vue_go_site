@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"regexp"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -45,6 +46,14 @@ func productsHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "%s", sendData)
 }
 
+func productHandler(w http.ResponseWriter, r *http.Request) {
+	reg, _ := regexp.Compile("/get-product/([0-9]+)")
+	if len(reg.FindStringSubmatch(r.URL.Path)) > 0 {
+		fmt.Println(reg.FindStringSubmatch(r.URL.Path)[1])
+	}
+
+}
+
 func main() {
 	db, err := sql.Open("sqlite3", "db.db")
 	if err != nil {
@@ -58,6 +67,7 @@ func main() {
 
 	http.Handle("/", fs)
 	http.HandleFunc("/get-all-products", productsHandler)
+	http.HandleFunc("/get-product/", productHandler)
 
 	fmt.Println("Server starts...")
 	http.ListenAndServe(":8080", nil)
