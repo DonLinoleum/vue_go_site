@@ -29,7 +29,7 @@ export default{
 }
 </script>
 
-<style>
+<style scoped>
 .product-item{
     margin-top:1rem;
     margin-bottom: 1rem;

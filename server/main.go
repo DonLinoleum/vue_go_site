@@ -1,73 +1,22 @@
 package main
 
 import (
-	"database/sql"
-	"encoding/json"
 	"fmt"
 	"net/http"
-	"regexp"
+	"server/routesHandlers"
 
 	_ "github.com/mattn/go-sqlite3"
 )
 
-type Product struct {
-	Id          int
-	Title       string
-	Description string
-	Size        string
-	Price       int
-	Picture     string
-}
-
-var database *sql.DB
-
-func productsHandler(w http.ResponseWriter, r *http.Request) {
-	rows, err := database.Query("select * from Products")
-	if err != nil {
-		panic(err)
-	}
-
-	defer rows.Close()
-	products := []Product{}
-
-	for rows.Next() {
-		p := Product{}
-		err := rows.Scan(&p.Id, &p.Title, &p.Description, &p.Size, &p.Price, &p.Picture)
-		if err != nil {
-			continue
-		}
-		products = append(products, p)
-	}
-	resultJson, err := json.Marshal(products)
-	if err != nil {
-		fmt.Println(err)
-	}
-	sendData := string(resultJson)
-	fmt.Fprintf(w, "%s", sendData)
-}
-
-func productHandler(w http.ResponseWriter, r *http.Request) {
-	reg, _ := regexp.Compile("/get-product/([0-9]+)")
-	if len(reg.FindStringSubmatch(r.URL.Path)) > 0 {
-		fmt.Println(reg.FindStringSubmatch(r.URL.Path)[1])
-	}
-
-}
-
 func main() {
-	db, err := sql.Open("sqlite3", "db.db")
-	if err != nil {
-		panic(err)
-	}
-
-	database = db
-	defer db.Close()
+	routesHandlers.SqlConnect()
+	defer routesHandlers.Database.Close()
 
 	fs := http.FileServer(http.Dir("../Site"))
 
 	http.Handle("/", fs)
-	http.HandleFunc("/get-all-products", productsHandler)
-	http.HandleFunc("/get-product/", productHandler)
+	http.HandleFunc("/get-all-products", routesHandlers.ProductsHandler)
+	http.HandleFunc("/get-product/", routesHandlers.OneProductHandler)
 
 	fmt.Println("Server starts...")
 	http.ListenAndServe(":8080", nil)

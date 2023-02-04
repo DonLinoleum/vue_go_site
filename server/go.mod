@@ -1,5 +1,5 @@
-module go_site
+module server
 
-go 1.19
+go 1.18
 
 require github.com/mattn/go-sqlite3 v1.14.16 // indirect
